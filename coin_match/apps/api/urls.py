@@ -3,5 +3,6 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
 urlpatterns = [
+    url(r'^cryptocurrency$', views.CryptoCreate.as_view()),
     url(r'^cryptocurrency/(?P<pk>\d+)$', views.CryptoView.as_view())
 ]
