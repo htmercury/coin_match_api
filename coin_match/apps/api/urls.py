@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^exchange/(?P<pk>\d+)$', views.ExchangeView.as_view()),
     url(r'^transaction$', views.TransactionCreate.as_view()),
     url(r'^transaction/(?P<pk>\d+)$', views.TransactionView.as_view()),
-    url(r'^$', view.index),
+    url(r'^$', views.index),
 ]
