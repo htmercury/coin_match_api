@@ -12,3 +12,9 @@ class CryptoCurrencySerializer(serializers.ModelSerializer):
         model= CryptoCurrency
         fields=("name", "abbreviation", "symbol", "supply_limit","founder", "created_at", "updated_at","trade")
         read_only_fields = ("created_at", "updated_at")
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Transaction
+        fields=("cryptocurrencies", "exchanges", "volume", "buy_price", "sell_price", "spot_price", "time_stamp")
+        read_only_fields = ("created_at", "updated_at")
