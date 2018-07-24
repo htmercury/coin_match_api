@@ -22,3 +22,13 @@ class ExchangeCreate(generics.ListCreateAPIView):
     serializer_class = ExchangeSerializer
     def perform_create(self, serializer):
         serializer.save()
+
+class TransactionView(generics.RetrieveUpdateDestroyAPIView):
+    queryset= Transaction.objects.all()
+    serializer_class=TransactionSerializer
+
+class TransactionCreate(generics.ListCreateAPIView):
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
+    def perform_create(self, serializer):
+        serializer.save()
