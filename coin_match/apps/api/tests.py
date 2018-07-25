@@ -2,8 +2,11 @@ from django.test import TestCase
 from .models import *
 from rest_framework.test import APIClient
 from rest_framework import status
-from datetime import datetime
+from django.utils import timezone
+import pytz
 from django.core.urlresolvers import reverse
+
+admin = User.objects.get(id=1)
 
 class ExchangeModelTestCase(TestCase):
     def setUp(self):
@@ -20,14 +23,17 @@ class ExchangeModelTestCase(TestCase):
 
 class ExchangeViewTestCase(TestCase):
     def setUp(self):
+
         self.client = APIClient()
-        CryptoCurrency.objects.create(name='pepecoin', abbreviation='pp', symbol='p', supply_limit=1, founder='king pepe')
+        self.client.force_authenticate(user=admin)
+
+        currency = CryptoCurrency.objects.create(name='pepecoin', abbreviation='pp', symbol='p', supply_limit=1, founder='king pepe')
         self.exchange_data = {
             "name": "sample_exchange",
             "buy_fee": "1%",
             "sell_fee": "2%",
             "desc": "exchange",
-            "products": [1],
+            "products": [currency.id],
             "past_trades": []
         }
         self.response = self.client.post(
@@ -37,6 +43,14 @@ class ExchangeViewTestCase(TestCase):
         )
     def test_api_can_create_an_exchange(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
+    def test_api_can_get_an_exchange(self):
+        exchange = Exchange.objects.get(id=1)
+        response = self.client.get(
+            '/exchange/',
+            kwargs={'pk': exchange.id}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, exchange)
+    
 
 class CryptoCurrencyModelTestCase(TestCase):
     def setUp(self):
@@ -54,7 +68,10 @@ class CryptoCurrencyModelTestCase(TestCase):
 
 class CryptoCurrencyViewTestCase(TestCase):
     def setUp(self):
+
         self.client = APIClient()
+        self.client.force_authenticate(user=admin)
+        
         self.cryptocurrency_data = {
             "name": "pepecoin",
             "abbreviation": "pp",
@@ -79,7 +96,7 @@ class TransactionModelTestCase(TestCase):
         self.transaction_buy_price = 11
         self.transaction_sell_price = 12
         self.transaction_spot_price = 10
-        self.transaction_time_stamp = datetime.now()
+        self.transaction_time_stamp = timezone.now()
         self.transaction = Transaction(cryptocurrencies=CryptoCurrency.objects.get(id=1), exchanges=Exchange.objects.get(id=1), volume=self.transaction_volume, buy_price=self.transaction_buy_price, sell_price=self.transaction_sell_price, spot_price=self.transaction_spot_price, time_stamp=self.transaction_time_stamp)
     def test_model_can_create_an_transaction(self):
         old_count = Transaction.objects.count()
