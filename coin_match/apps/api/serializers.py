@@ -20,3 +20,10 @@ class TransactionSerializer(serializers.ModelSerializer):
         model= Transaction
         fields=("cryptocurrencies", "exchanges", "volume", "buy_price", "sell_price", "spot_price", "time_stamp")
         read_only_fields = ("created_at", "updated_at")
+
+class UserSerializer(serializers.ModelSerializer):
+    """A user serializer to aid in authentication and authorization."""
+    class Meta:
+        """Map this serializer to the default django user model."""
+        model = User
+        fields = ('id', 'username', 'bucketlists')
