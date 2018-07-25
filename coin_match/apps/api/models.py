@@ -32,7 +32,7 @@ class Exchange(models.Model):
 class Transaction(models.Model):
     cryptocurrencies = models.ForeignKey(CryptoCurrency, related_name= "trade")
     exchanges = models.ForeignKey(Exchange, related_name= "past_trades")
-    volume = models.DecimalField(max_digits = 8, decimal_places=2)
+    volume = models.DecimalField(max_digits = 9, decimal_places=2)
     buy_price= models.DecimalField(max_digits = 8, decimal_places=2)
     sell_price= models.DecimalField(max_digits = 8, decimal_places=2)
     spot_price= models.DecimalField(max_digits = 8, decimal_places=2)
