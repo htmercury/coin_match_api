@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
-from rest_framework import generics
+from rest_framework import generics, permissions
 import requests
-import datetime
+from datetime import datetime
 from .serializers import *
 from .models import *
 
@@ -12,6 +12,7 @@ class CryptoView(generics.RetrieveUpdateDestroyAPIView):
 class CryptoCreate(generics.ListCreateAPIView):
     queryset = CryptoCurrency.objects.all()
     serializer_class = CryptoCurrencySerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def perform_create(self, serializer):
         serializer.save()
 
@@ -22,6 +23,7 @@ class ExchangeView(generics.RetrieveUpdateDestroyAPIView):
 class ExchangeCreate(generics.ListCreateAPIView):
     queryset = Exchange.objects.all()
     serializer_class = ExchangeSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def perform_create(self, serializer):
         serializer.save()
 
@@ -32,6 +34,7 @@ class TransactionView(generics.RetrieveUpdateDestroyAPIView):
 class TransactionCreate(generics.ListCreateAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+    permission_classes = (permissions.IsAuthenticated,)
     def perform_create(self, serializer):
         serializer.save()
 
@@ -52,7 +55,7 @@ def coinsquare_data_retrieval():
     ticker= r.json()['quotes'][1]
     name= "Bitcoin"
     volume = float(ticker['volume'])
-    time_stamp= datetime.datetime.now()
+    time_stamp= datetime.now()
     buy_price = ticker['bid']
     if ticker['bid']==null or ticker['bid'] =='null':
         buy_price= NULL
@@ -83,7 +86,7 @@ def kraken_data_retrieval(curr1,curr2):
     elif curr1 =="XRP":
         name="Ripple"
     volume=float(ticker['v'][1])
-    time_stamp = datetime.datetime.now()
+    time_stamp = datetime.now()
     buy_price=ticker['b'][0]
     if ticker['b'][0]==null or ticker['b'][0]=='null':
         buy_price= NULL
