@@ -88,7 +88,7 @@ def kraken_data_retrieval(curr1,curr2):
         ticker= r.json()['result'][f'X{curr1}Z{curr2}']
     elif curr1 == "BCH":
         name="Bitcoin Cash"
-        ticker= r.json()['result'][f'X{curr1}Z{curr2}']
+        ticker= r.json()['result'][f'{curr1}{curr2}']
     elif curr1 == "DASH":
         name="Dash"
         ticker= r.json()['result'][f'{curr1}{curr2}']
@@ -98,9 +98,9 @@ def kraken_data_retrieval(curr1,curr2):
     elif curr1 == "LTC":
         name="LiteCoin"
         ticker= r.json()['result'][f'X{curr1}Z{curr2}']
-    elif curr1 =="XDG":
-        name="Dogecoin"
-        ticker= r.json()['result'][f'X{curr1}Z{curr2}']
+    # elif curr1 =="DOGE":
+    #     name="Dogecoin"
+    #     ticker= r.json()['result'][f'XRD{curr2}']
     elif curr1 =="XRP":
         name="Ripple"
         ticker= r.json()['result'][f'X{curr1}Z{curr2}']
@@ -249,7 +249,7 @@ def coinbase_data_retrieval(curr1,curr2):
     elif curr1=="BCH":
         name="Bitcoin Cash"
     elif curr1== "LTC":
-        name="Litecoin"
+        name="LiteCoin"
     spot_price=float(ticker['amount'])
     if ticker['amount'] =='null':
         spot_price= NULL
@@ -323,10 +323,6 @@ def show_crypto(request, pk):
             "b": cex_data_retrieval("XRP","USD"),
             "c": bitstamp_data_retrieval("xrp","usd")
         }
-    elif crypto.abbreviation=="DOGE":
-        doge_context={
-            "a": kraken_data_retrieval("DOGE","USD")
-        }
         
     context={
         "currency":crypto,
@@ -380,7 +376,6 @@ def show_exchange(request,pk):
             "d": kraken_data_retrieval("LTC","USD"),
             "e": kraken_data_retrieval("XRP","USD"),
             "f": kraken_data_retrieval("DASH","USD"),
-            "g": kraken_data_retrieval("DOGE","USD"),
         }
     elif exchange.name=="BitStamp":
         bitstamp_context={
