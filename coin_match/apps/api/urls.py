@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'users/(?P<pk>[0-9]+)/$', views.UserDetailsView.as_view(), name="user_details"),
     url(r'^get-token/', obtain_auth_token),
     url(r'^$', views.index),
+    url(r'^cryptocurrency/(?P<pk>\d+)/show$', views.show_crypto),
+    url(r'^exchange/(?P<pk>\d+)/show$', views.show_exchange),
 ]
