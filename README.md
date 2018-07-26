@@ -60,8 +60,8 @@ This app will be deployed using the EC2 & AWS
 
 * [Django](https://www.djangoproject.com/) - The web framework used
 * [Python](https://www.python.org/) - Used to write logic code
-* [jQuery](https://rometools.github.io/rome/) - To help display
-* [AJAX](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [jQuery](https://jquery.com/) - Used for diaplsy functions
+* [JavaScript](JavaScript.com) - Assists in frontend display
 
 ## Contributing
 
@@ -73,9 +73,9 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Ka W.** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-* **Zach V.** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-* **Tom K.** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Ka W.** - *Initial work* - [HTMercury](https://github.com/htmercury/)
+* **Zach V.** - *Initial work* - [ZachVerghese](https://github.com/zachverghese)
+* **Tom K.** - *Initial work* - [Tsk339](https://github.com/tsk339)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
