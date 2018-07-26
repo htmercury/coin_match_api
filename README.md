@@ -71,11 +71,46 @@ run ```python manage.py test``` to run the given unit tests
 
 ### Break Down End to End Tests
 
-Explain what these tests test and why
+Two Categories of Unit Tests
 
+# Model Tests
+These tests if the model is functioning correctly by checking if objects can be created and deleted.
+Example:
 ```
-Give an example
+ def test_model_can_create_an_exchange(self):
+        """Test the exchange model can create an exchange"""
+        old_count = Exchange.objects.count()
+        self.exchange.save()
+        new_count = Exchange.objects.count()
+        self.assertNotEqual(old_count, new_count)
 ```
+This test checks if a new exchange object can be instantiated in the database.
+
+# API Tests
+These tests if the API responds to different REST methods made to the API endpoints.
+```
+    def test_api_can_update_an_exchange(self):
+        """Test api can delete a given exchange"""
+        exchange = Exchange.objects.get(id=1)
+        change_exchange = {
+        "name": "apples",
+        "owner": "admin",
+        "buy_fee": "0.25%",
+        "sell_fee": "0.16%",
+        "desc": "good stuff",
+        "products": [1],
+        "created_at": "2018-07-24T16:43:16.699539Z",
+        "updated_at": "2018-07-24T17:14:27.916056Z",
+        "past_trades": []
+    }
+        url = '/exchange/' + str(exchange.id)
+        res = self.client.put(
+            url,
+            change_exchange
+        )
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+```
+This test checks if the API can update an existing exchange that was made by a PUT request.
 
 ## Deployment
 
