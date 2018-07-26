@@ -54,7 +54,7 @@ Give an example
 
 ## Deployment
 
-This app will be deployed from github using the EC2 and the Amazon Web Server. We will not be using heroku for our deployment.
+This app will be deployed from github using EC2 and the Amazon Web Server. We will not be using heroku for our deployment.
 
 ## Built With
 
