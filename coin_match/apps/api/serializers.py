@@ -5,14 +5,14 @@ class ExchangeSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model= Exchange
-        fields=("name", "owner", "buy_fee", "sell_fee", "desc","products", "created_at", "updated_at", "past_trades")
+        fields=("id", "name", "owner", "buy_fee", "sell_fee", "desc","products", "created_at", "updated_at", "past_trades")
         read_only_fields = ("created_at", "updated_at")
 
 class CryptoCurrencySerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model= CryptoCurrency
-        fields=("name", "owner", "abbreviation", "symbol", "supply_limit","founder", "created_at", "updated_at","trade")
+        fields=("id", "name", "owner", "abbreviation", "symbol", "supply_limit","founder", "created_at", "updated_at","trade")
         read_only_fields = ("created_at", "updated_at")
 
 class TransactionSerializer(serializers.ModelSerializer):
