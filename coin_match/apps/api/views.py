@@ -371,7 +371,6 @@ def show_crypto(request, pk):
     exchanges=crypto.suppliers.all()
     transactions= Transaction.objects.filter(cryptocurrencies=crypto).filter(exchanges=exchanges)
     context=[]
-
     if crypto.abbreviation=="BTC":
         context=[coinsquare_data_retrieval(),kraken_data_retrieval("XBT","USD"),cex_data_retrieval("BTC","USD"),bitstamp_data_retrieval("btc","usd"),bitsquare_data_retrieval("btc","usd"),localbitcoin_data_retrieval(),gemini_data_retrieval("btc","usd"),coinbase_data_retrieval("BTC","USD")]
     elif crypto.abbreviation=="ETH":
