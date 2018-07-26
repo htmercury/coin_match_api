@@ -10,36 +10,49 @@ from .models import *
 import json
 
 class CryptoView(generics.RetrieveUpdateDestroyAPIView):
+    """This class handles the cryptocurrency http GET, PUT and DELETE requests."""
     queryset= CryptoCurrency.objects.all()
     serializer_class=CryptoCurrencySerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class CryptoCreate(generics.ListCreateAPIView):
+    """This class defines the cryptocurrency create behavior of our rest api."""
     queryset = CryptoCurrency.objects.all()
     serializer_class = CryptoCurrencySerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def perform_create(self, serializer):
+        """Save the post data when creating a new cryptocurrency."""
         serializer.save()
 
 class ExchangeView(generics.RetrieveUpdateDestroyAPIView):
+    """This class handles the exchange http GET, PUT and DELETE requests."""
     queryset= Exchange.objects.all()
     serializer_class=ExchangeSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class ExchangeCreate(generics.ListCreateAPIView):
+    """This class defines the exchange create behavior of our rest api."""
     queryset = Exchange.objects.all()
     serializer_class = ExchangeSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def perform_create(self, serializer):
+        """Save the post data when creating a new exchange."""
         serializer.save()
 
 class TransactionView(generics.RetrieveUpdateDestroyAPIView):
+    """This class handles the transaction http GET, PUT and DELETE requests."""
     queryset= Transaction.objects.all()
     serializer_class=TransactionSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class TransactionCreate(generics.ListCreateAPIView):
+    """This class defines the transaction create behavior of our rest api."""
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     def perform_create(self, serializer):
+        """Save the post data when creating a new transaction."""
         serializer.save()
 
 class UserView(generics.ListAPIView):
