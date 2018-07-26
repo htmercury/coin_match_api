@@ -98,7 +98,8 @@ def coinsquare_data_retrieval():
         spot_price = float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Coinsquare"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     coinsquare_context_main={
-        "name":name,
+        "exchange": "Coinsquare",
+        "coin":name,
         "abbr":abbr,
         "spot_price":spot_price,
         "time_stamp":str(time_stamp),
@@ -148,7 +149,8 @@ def kraken_data_retrieval(curr1,curr2):
         spot_price=float(ticker['c'][0])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Kraken"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     kraken_context_main={
-        "name":name,
+        "exchange":"Kraken",
+        "coin":name,
         "abbr":curr1,
         "spot_price":spot_price,
         "time_stamp":str(time_stamp),
@@ -187,7 +189,8 @@ def cex_data_retrieval(curr1,curr2):
         spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Cex.io"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     cex_context_main={
-        "name":name,
+        "exchange":"CEX.io",
+        "coin":name,
         "abbr":curr1,
         "spot_price":spot_price,
         "time_stamp":str(time_stamp),
@@ -227,7 +230,8 @@ def bitstamp_data_retrieval(curr1,curr2):
         spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="BitStamp"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     bitstamp_context_main={
-        "name":name,
+        "exchange":"BitStamp",
+        "coin":name,
         "abbr":curr1,
         "spot_price":spot_price,
         "time_stamp":str(time_stamp),
@@ -257,7 +261,8 @@ def bitsquare_data_retrieval(curr1,curr2):
         spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Bitsquare"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     bitsquare_context_main={
-        "name":name,
+        "exchange":"Bitsquare",
+        "coin":name,
         "abbr":curr1,
         "spot_price":spot_price,
         "time_stamp":str(time_stamp),
@@ -282,7 +287,8 @@ def localbitcoin_data_retrieval():
     sell_price=0
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Local Bitcoin"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     local_context_main={
-        "name":name,
+        "exchange":"Local Bitcoin",
+        "coin":name,
         "abbr":abbr,
         "spot_price":spot_price,
         "time_stamp":str(time_stamp),
@@ -315,7 +321,8 @@ def gemini_data_retrieval(curr1,curr2):
         spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Gemini"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     gemimi_context_main={
-        "name":name,
+        "exchange":"Gemini",
+        "coin":name,
         "abbr":curr1,
         "spot_price":spot_price,
         "time_stamp":str(time_stamp),
@@ -356,7 +363,8 @@ def coinbase_data_retrieval(curr1,curr2):
     volume=0
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Coinbase"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     coinbase_context_main={
-        "name":name,
+        "exchange":"Coinbase",
+        "coin":name,
         "abbr":curr1,
         "spot_price":spot_price,
         "time_stamp":str(time_stamp),
