@@ -1,6 +1,6 @@
 # COIN MATCH API
 
-Thank you for using the coin match app. This app can be used to compare prices for various cryptocurrencies across several platforms for the purposes of price analysis research, and logging. Coin match can also be used to compare one platform to another.
+Thank you for using the coin match api. This app can be used to compare prices for various cryptocurrencies across several platforms for the purposes of price analysis, research, and logging. Coin match can also be used to compare one exchange to another, and display whatever currencies are available on those exchanges.
 
 ## GETTING STARTED
 
@@ -54,11 +54,12 @@ Give an example
 
 ## Deployment
 
-This app will be deployed using the EC2 & AWS
+This app will be deployed from github using the EC2 and the Amazon Web Server. We will not be using heroku for our deployment.
 
 ## Built With
 
 * [Django](https://www.djangoproject.com/) - The web framework used
+* [Django REST Framework](www.django-rest-framework.org/) - The api framework used
 * [Python](https://www.python.org/) - Used to write logic code
 * [jQuery](https://jquery.com/) - Used for diaplsy functions
 * [JavaScript](JavaScript.com) - Assists in frontend display
@@ -73,15 +74,15 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Ka W.** - *Initial work* - [HTMercury](https://github.com/htmercury/)
-* **Zach V.** - *Initial work* - [ZachVerghese](https://github.com/zachverghese)
-* **Tom K.** - *Initial work* - [Tsk339](https://github.com/tsk339)
+* **Ka Wong** - *Unit testing, serializers, database design - django models.* - [HTMercury](https://github.com/htmercury/)
+* **Zach Verghese** - *Logical data operations and validation - django views.* - [ZachVerghese](https://github.com/zachverghese)
+* **Tom Kane** - *Integration between front-end and database, documentation.* - [Tsk339](https://github.com/tsk339)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the Creative Commons License
+This project is licensed under the MIT License.
 
 ## Acknowledgments
 
