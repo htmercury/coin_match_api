@@ -7,6 +7,7 @@ import requests
 from datetime import datetime
 from .serializers import *
 from .models import *
+import json
 
 class CryptoView(generics.RetrieveUpdateDestroyAPIView):
     queryset= CryptoCurrency.objects.all()
@@ -50,7 +51,7 @@ class UserDetailsView(generics.RetrieveAPIView):
     """View to retrieve a user instance."""
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
+    
 def index(request):
     print(coinsquare_data_retrieval())
     print(kraken_data_retrieval("XBT","USD"))
@@ -67,6 +68,7 @@ def coinsquare_data_retrieval():
     r= requests.get('https://coinsquare.com/api/v1/data/quotes')
     ticker= r.json()['quotes'][1]
     name= "Bitcoin"
+    abbr="BTC"
     volume = float(ticker['volume'])
     time_stamp= datetime.now()
     if ticker['bid'] =='null':
@@ -82,7 +84,16 @@ def coinsquare_data_retrieval():
     else:
         spot_price = float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Coinsquare"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
-    return 
+    coinsquare_context_main={
+        "name":name,
+        "abbr":abbr,
+        "spot_price":spot_price,
+        "time_stamp":str(time_stamp),
+        "volume":volume,
+        "buy":buy_price,
+        "sell":sell_price
+    }
+    return coinsquare_context_main
 
 def kraken_data_retrieval(curr1,curr2):
     r= requests.get(f'https://api.kraken.com/0/public/Ticker?pair={curr1}{curr2}')
@@ -123,8 +134,16 @@ def kraken_data_retrieval(curr1,curr2):
     else:
         spot_price=float(ticker['c'][0])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Kraken"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
-
-    return
+    kraken_context_main={
+        "name":name,
+        "abbr":curr1,
+        "spot_price":spot_price,
+        "time_stamp":str(time_stamp),
+        "volume":volume,
+        "buy":buy_price,
+        "sell":sell_price
+    }
+    return kraken_context_main
 
 def cex_data_retrieval(curr1,curr2):
     r= requests.get(f'https://cex.io/api/ticker/{curr1}/{curr2}')
@@ -154,18 +173,16 @@ def cex_data_retrieval(curr1,curr2):
     else:
         spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Cex.io"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
-    return 
-
-# def poloniex_data_retrieval():
-#     r= requests.get('https://poloniex.com/public?command=returnTicker')
-#     ticker= r.json()
-#     name= "BTC"
-#     volume=ticker['v']
-#     time_stamp = datetime.datetime.now()
-#     buy_price=ticker['b']
-#     sell_price=ticker['a']
-#     spot_price=['c']
-#     return
+    cex_context_main={
+        "name":name,
+        "abbr":curr1,
+        "spot_price":spot_price,
+        "time_stamp":str(time_stamp),
+        "volume":volume,
+        "buy":buy_price,
+        "sell":sell_price
+    }
+    return cex_context_main
 
 def bitstamp_data_retrieval(curr1,curr2):
     r= requests.get(f'https://www.bitstamp.net/api/v2/ticker/{curr1}{curr2}')
@@ -196,7 +213,16 @@ def bitstamp_data_retrieval(curr1,curr2):
     else:
         spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="BitStamp"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
-    return 
+    bitstamp_context_main={
+        "name":name,
+        "abbr":curr1,
+        "spot_price":spot_price,
+        "time_stamp":str(time_stamp),
+        "volume":volume,
+        "buy":buy_price,
+        "sell":sell_price
+        }
+    return bitstamp_context_main
 
 def bitsquare_data_retrieval(curr1,curr2):
     r= requests.get(f'https://markets.bisq.network/api/ticker?market={curr1}_{curr2}')
@@ -217,11 +243,21 @@ def bitsquare_data_retrieval(curr1,curr2):
     else:
         spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Bitsquare"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
-    return 
+    bitsquare_context_main={
+        "name":name,
+        "abbr":curr1,
+        "spot_price":spot_price,
+        "time_stamp":str(time_stamp),
+        "volume":volume,
+        "buy":buy_price,
+        "sell":sell_price
+    }
+    return bitsquare_context_main
 
 def localbitcoin_data_retrieval():
     r= requests.get('https://localbitcoins.com/bitcoincharts/usd/trades.json')
     ticker= r.json()[499]
+    abbr= "BTC"
     name= "Bitcoin"
     volume=float(ticker['amount'])
     time_stamp = datetime.fromtimestamp(int(ticker['date']))
@@ -232,7 +268,16 @@ def localbitcoin_data_retrieval():
     buy_price=0
     sell_price=0
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Local Bitcoin"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
-    return 
+    local_context_main={
+        "name":name,
+        "abbr":abbr,
+        "spot_price":spot_price,
+        "time_stamp":str(time_stamp),
+        "volume":volume,
+        "buy":buy_price,
+        "sell":sell_price
+    }
+    return local_context_main
 
 def gemini_data_retrieval(curr1,curr2):
     r= requests.get(f'https://api.gemini.com/v1/pubticker/{curr1}{curr2}')
@@ -256,7 +301,16 @@ def gemini_data_retrieval(curr1,curr2):
     else:
         spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Gemini"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
-    return 
+    gemimi_context_main={
+        "name":name,
+        "abbr":curr1,
+        "spot_price":spot_price,
+        "time_stamp":str(time_stamp),
+        "volume":volume,
+        "buy":buy_price,
+        "sell":sell_price
+    }
+    return gemimi_context_main
 
 def coinbase_data_retrieval(curr1,curr2):
     r= requests.get(f'https://api.coinbase.com/v2/prices/{curr1}-{curr2}/spot')
@@ -288,150 +342,58 @@ def coinbase_data_retrieval(curr1,curr2):
     time_stamp=datetime.now()
     volume=0
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Coinbase"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
-    return 
+    coinbase_context_main={
+        "name":name,
+        "abbr":curr1,
+        "spot_price":spot_price,
+        "time_stamp":str(time_stamp),
+        "volume":volume,
+        "buy":buy_price,
+        "sell":sell_price
+    }
+    return coinbase_context_main
 
 def show_crypto(request, pk):
     crypto= CryptoCurrency.objects.get(id=pk)
     exchanges=crypto.suppliers.all()
     transactions= Transaction.objects.filter(cryptocurrencies=crypto).filter(exchanges=exchanges)
-    btc_context={}
-    eth_context={}
-    bch_context={}
-    ltc_context={}
-    dash_context={}
-    xrp_context={}
+    context=[]
 
     if crypto.abbreviation=="BTC":
-        btc_context={
-            "a": coinsquare_data_retrieval(),
-            "b": kraken_data_retrieval("XBT","USD"),
-            "c": cex_data_retrieval("BTC","USD"),
-            "d": bitstamp_data_retrieval("btc","usd"),
-            "e": bitsquare_data_retrieval("btc","usd"),
-            "f": localbitcoin_data_retrieval(),
-            "g": gemini_data_retrieval("btc","usd"),
-            "h": coinbase_data_retrieval("BTC","USD")
-        }
+        context=[coinsquare_data_retrieval(),kraken_data_retrieval("XBT","USD"),cex_data_retrieval("BTC","USD"),bitstamp_data_retrieval("btc","usd"),bitsquare_data_retrieval("btc","usd"),localbitcoin_data_retrieval(),gemini_data_retrieval("btc","usd"),coinbase_data_retrieval("BTC","USD")]
     elif crypto.abbreviation=="ETH":
-        eth_context={
-            "a": coinbase_data_retrieval("ETH","USD"),
-            "b": kraken_data_retrieval("ETH","USD"),
-            "c": cex_data_retrieval("ETH","USD"),
-            "d": bitstamp_data_retrieval("eth","usd"),
-            "e": gemini_data_retrieval("eth","usd")
-        }
+        context=[coinbase_data_retrieval("ETH","USD"),kraken_data_retrieval("ETH","USD"),cex_data_retrieval("ETH","USD"),bitstamp_data_retrieval("eth","usd"),gemini_data_retrieval("eth","usd")]
     elif crypto.abbreviation=="BCH":
-        bch_context={
-            "a": coinbase_data_retrieval("BCH","USD"),
-            "b": kraken_data_retrieval("BCH","USD"),
-            "c": cex_data_retrieval("BCH","USD"),
-            "d": bitstamp_data_retrieval("bch","usd"),
-        }
+        context=[coinbase_data_retrieval("BCH","USD"),kraken_data_retrieval("BCH","USD"),cex_data_retrieval("BCH","USD"),bitstamp_data_retrieval("bch","usd")]
     elif crypto.abbreviation=="LTC":
-        ltc_context={
-            "a": coinbase_data_retrieval("LTC","USD"),
-            "b": kraken_data_retrieval("LTC","USD"),
-            "c": bitstamp_data_retrieval("ltc","usd"),
-        }
+        context=[coinbase_data_retrieval("LTC","USD"),kraken_data_retrieval("LTC","USD"),bitstamp_data_retrieval("ltc","usd")]
     elif crypto.abbreviation=="DASH":
-        dash_context={
-            "a": kraken_data_retrieval("DASH","USD"),
-            "b": cex_data_retrieval("DASH","USD"),
-        }
+        context=[kraken_data_retrieval("DASH","USD"),cex_data_retrieval("DASH","USD")]
     elif crypto.abbreviation=="XRP":
-        xrp_context={
-            "a": kraken_data_retrieval("XRP","USD"),
-            "b": cex_data_retrieval("XRP","USD"),
-            "c": bitstamp_data_retrieval("xrp","usd")
-        }
-        
-    context={
-        "currency":crypto,
-        "exchanges":exchanges,
-        "btc_context":btc_context,
-        "eth_context":eth_context,
-        "bch_context":bch_context,
-        "ltc_context":ltc_context,
-        "dash_context":dash_context,
-        "xrp_context":xrp_context,
-    }
-
-    return render(request, 'api/show_crypto.html',context)
+        context=[kraken_data_retrieval("XRP","USD"),cex_data_retrieval("XRP","USD"),bitstamp_data_retrieval("xrp","usd")]
+    return HttpResponse(json.dumps(context), content_type="application/json")
 
 def show_exchange(request,pk):
     exchange= Exchange.objects.get(id=pk)
     currencies= exchange.products.all()
-    cex_context={}
-    coinbase_context={}
-    coinsquare_context={}
-    kraken_context={}
-    bitstamp_context={}
-    bitsquare_context={}
-    local_context={}
-    gemini_context={}
+    context=[]
     if exchange.name == "Cex.io":
-        cex_context={
-            "a": cex_data_retrieval("BTC","USD"),
-            "b": cex_data_retrieval("ETH","USD"),
-            "c": cex_data_retrieval("BCH","USD"),
-            "d": cex_data_retrieval("XRP","USD"),
-            "e": cex_data_retrieval("DASH","USD"),
-        }
+        context=[cex_data_retrieval("BTC","USD"),cex_data_retrieval("ETH","USD"),cex_data_retrieval("BCH","USD"),cex_data_retrieval("XRP","USD"),cex_data_retrieval("DASH","USD")]
     elif exchange.name == "Coinbase":
-        coinbase_context={
-            "a": coinbase_data_retrieval("BTC","USD"),
-            "b": coinbase_data_retrieval("ETH","USD"),
-            "c": coinbase_data_retrieval("BCH","USD"),
-            # "d": coinbase_data_retrieval("LTC","USD"),
-        }
+        context=[coinbase_data_retrieval("BTC","USD"),coinbase_data_retrieval("ETH","USD"),coinbase_data_retrieval("BCH","USD")]
     elif exchange.name=="Coinsquare":
-        coinsquare_context={
-            "a":coinsquare_data_retrieval()
-        }
+        context=[coinsquare_data_retrieval()]
     elif exchange.name=="Kraken":
-        kraken_context={
-            "a": kraken_data_retrieval("XBT","USD"),
-            "b": kraken_data_retrieval("ETH","USD"),
-            "c": kraken_data_retrieval("BCH","USD"),
-            "d": kraken_data_retrieval("LTC","USD"),
-            "e": kraken_data_retrieval("XRP","USD"),
-            "f": kraken_data_retrieval("DASH","USD"),
-        }
+        context=[kraken_data_retrieval("XBT","USD"),kraken_data_retrieval("ETH","USD"),kraken_data_retrieval("BCH","USD"),kraken_data_retrieval("LTC","USD"),kraken_data_retrieval("XRP","USD"),kraken_data_retrieval("DASH","USD")]
     elif exchange.name=="BitStamp":
-        bitstamp_context={
-            "a": bitstamp_data_retrieval("btc","usd"),
-            "b": bitstamp_data_retrieval("eth","usd"),
-            "c": bitstamp_data_retrieval("bch","usd"),
-            "d": bitstamp_data_retrieval("ltc","usd"),
-            "e": bitstamp_data_retrieval("xrp","usd"),
-        }
+        context=[bitstamp_data_retrieval("btc","usd"),bitstamp_data_retrieval("eth","usd"),bitstamp_data_retrieval("bch","usd"),bitstamp_data_retrieval("ltc","usd"),bitstamp_data_retrieval("xrp","usd")]
     elif exchange.name=="Bitsquare":
-        bitsquare_context={
-            "a":bitsquare_data_retrieval("btc","usd")
-        }
+        context=[bitsquare_data_retrieval("btc","usd")]
     elif exchange.name =="Local Bitcoin":
-        local_context={
-            "a":localbitcoin_data_retrieval()
-        }
+        context=[localbitcoin_data_retrieval()]
     elif exchange.name=="Gemini":
-        gemini_context={
-            "a": gemini_data_retrieval("btc","usd"),
-            "b": gemini_data_retrieval("eth","usd")
-        }
-
-    context={
-        "exchange":exchange,
-        "currencies":currencies,
-        "cex_context":cex_context,
-        "coinbase_context":coinbase_context,
-        "coinsquare_context":coinsquare_context,
-        "kraken_context":kraken_context,
-        "bitstamp_context":bitstamp_context,
-        "bitsquare_context":bitsquare_context,
-        "local_context":local_context,
-        "gemini_context":gemini_context
-    }
-    return render(request, 'api/show_exchange.html',context)
+        context=[gemini_data_retrieval("btc","usd"),gemini_data_retrieval("eth","usd")]
+    return HttpResponse(json.dumps(context), content_type="application/json")
 
 
 @receiver(post_save, sender=User)
