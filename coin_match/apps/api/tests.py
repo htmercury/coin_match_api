@@ -6,8 +6,6 @@ from django.utils import timezone
 import pytz
 from django.core.urlresolvers import reverse
 
-admin = User.objects.get(id=1)
-
 class ExchangeModelTestCase(TestCase):
     def setUp(self):
         self.exchange_name = 'sample_exchange'
@@ -23,9 +21,10 @@ class ExchangeModelTestCase(TestCase):
 
 class ExchangeViewTestCase(TestCase):
     def setUp(self):
+        user = User.objects.create_superuser(username="tom", email=None, password='password')
 
         self.client = APIClient()
-        self.client.force_authenticate(user=admin)
+        self.client.force_authenticate(user=user)
 
         currency = CryptoCurrency.objects.create(name='pepecoin', abbreviation='pp', symbol='p', supply_limit=1, founder='king pepe')
         self.exchange_data = {
@@ -34,7 +33,8 @@ class ExchangeViewTestCase(TestCase):
             "sell_fee": "2%",
             "desc": "exchange",
             "products": [currency.id],
-            "past_trades": []
+            "past_trades": [],
+            "owner": user.id
         }
         self.response = self.client.post(
             '/exchange',
@@ -45,12 +45,33 @@ class ExchangeViewTestCase(TestCase):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
     def test_api_can_get_an_exchange(self):
         exchange = Exchange.objects.get(id=1)
-        response = self.client.get(
-            '/exchange/',
-            kwargs={'pk': exchange.id}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertContains(response, exchange)
-    
+        url = '/exchange/' + str(exchange.id)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)   
+    def test_api_can_update_an_exchange(self):
+        exchange = Exchange.objects.get(id=1)
+        change_exchange = {
+        "name": "apples",
+        "owner": "admin",
+        "buy_fee": "0.25%",
+        "sell_fee": "0.16%",
+        "desc": "good stuff",
+        "products": [1],
+        "created_at": "2018-07-24T16:43:16.699539Z",
+        "updated_at": "2018-07-24T17:14:27.916056Z",
+        "past_trades": []
+    }
+        url = '/exchange/' + str(exchange.id)
+        res = self.client.put(
+            url,
+            change_exchange
+        )
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+    def test_api_can_delete_an_exchange(self):
+        exchange = Exchange.objects.get(id=1)
+        url = '/exchange/' + str(exchange.id)
+        res = self.client.delete(url)
+        self.assertEquals(res.status_code, status.HTTP_204_NO_CONTENT)
 
 class CryptoCurrencyModelTestCase(TestCase):
     def setUp(self):
@@ -68,9 +89,10 @@ class CryptoCurrencyModelTestCase(TestCase):
 
 class CryptoCurrencyViewTestCase(TestCase):
     def setUp(self):
+        user = User.objects.create_superuser(username="tom", email=None, password='password')
 
         self.client = APIClient()
-        self.client.force_authenticate(user=admin)
+        self.client.force_authenticate(user=user)
         
         self.cryptocurrency_data = {
             "name": "pepecoin",
@@ -78,7 +100,8 @@ class CryptoCurrencyViewTestCase(TestCase):
             "symbol": "p",
             "supply_limit": 1,
             "founder": "king pepe",
-            "trade": []
+            "trade": [],
+            "owner": user.id
         }
         self.response = self.client.post(
             '/cryptocurrency',
@@ -87,6 +110,35 @@ class CryptoCurrencyViewTestCase(TestCase):
         )
     def test_api_can_create_a_cryptocurrency(self):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
+    def test_api_can_get_a_cryptocurrency(self):
+        cryptocurrency = CryptoCurrency.objects.get(id=1)
+        url = '/cryptocurrency/' + str(cryptocurrency.id)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK) 
+    def test_api_can_update_a_cryptocurrency(self):
+        cryptocurrency = CryptoCurrency.objects.get(id=1)
+        change_cryptocurrency = {
+        "name": "Bitcoin",
+        "owner": "admin",
+        "abbreviation": "BTC",
+        "symbol": "₿",
+        "supply_limit": 210000000,
+        "founder": "Satoshi Nakatomo",
+        "created_at": "2018-07-24T16:32:32.775971Z",
+        "updated_at": "2018-07-24T16:32:32.776030Z",
+        "trade": []
+    }
+        url = '/cryptocurrency/' + str(cryptocurrency.id)
+        res = self.client.put(
+            url,
+            change_cryptocurrency
+        )
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+    def test_api_can_delete_a_cryptocurrency(self):
+        cryptocurrency = CryptoCurrency.objects.get(id=1)
+        url = '/cryptocurrency/' + str(cryptocurrency.id)
+        res = self.client.delete(url)
+        self.assertEquals(res.status_code, status.HTTP_204_NO_CONTENT)  
 
 class TransactionModelTestCase(TestCase):
     def setUp(self):
@@ -123,6 +175,4 @@ class TransactionViewTestCase(TestCase):
             self.transaction_data,
             format="json"
         )
-    def test_api_can_create_an_exchange(self):
-        self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
