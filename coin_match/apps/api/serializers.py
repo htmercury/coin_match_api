@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 class ExchangeSerializer(serializers.ModelSerializer):
+    """Serializer to map the Exchange Model instance into JSON format."""
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model= Exchange
@@ -9,6 +10,7 @@ class ExchangeSerializer(serializers.ModelSerializer):
         read_only_fields = ("created_at", "updated_at")
 
 class CryptoCurrencySerializer(serializers.ModelSerializer):
+    """Serializer to map the CryptoCurrency Model instance into JSON format."""
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model= CryptoCurrency
@@ -16,6 +18,7 @@ class CryptoCurrencySerializer(serializers.ModelSerializer):
         read_only_fields = ("created_at", "updated_at")
 
 class TransactionSerializer(serializers.ModelSerializer):
+    """Serializer to map the Transaction Model instance into JSON format."""
     class Meta:
         model= Transaction
         fields=("cryptocurrencies", "exchanges", "volume", "buy_price", "sell_price", "spot_price", "time_stamp")
