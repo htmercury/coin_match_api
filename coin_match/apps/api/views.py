@@ -69,15 +69,18 @@ def coinsquare_data_retrieval():
     name= "Bitcoin"
     volume = float(ticker['volume'])
     time_stamp= datetime.now()
-    buy_price = float(ticker['bid'])
     if ticker['bid'] =='null':
-        buy_price= NULL
-    sell_price=float(ticker['ask'])
-    if ticker['ask'] =='null':
-        sell_price= NULL
-    spot_price = float(ticker['last'])
-    if ticker['last'] =='null':
-        spot_price= NULL
+        buy_price= 0
+    else: 
+        buy_price = float(ticker['bid'])
+    if ticker['ask'] =='null' or ticker['ask'] ==None:
+        sell_price= 0
+    else:
+        sell_price=float(ticker['ask'])
+    if ticker['last'] =='null' or ticker['ask'] == None:
+        spot_price= 0
+    else:
+        spot_price = float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Coinsquare"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     return 
 
@@ -106,15 +109,19 @@ def kraken_data_retrieval(curr1,curr2):
         ticker= r.json()['result'][f'X{curr1}Z{curr2}']
     volume=float(ticker['v'][1])
     time_stamp = datetime.now()
-    buy_price=float(ticker['b'][0])
-    if ticker['b'][0]=='null':
-        buy_price= NULL
-    sell_price=float(ticker['a'][0])
-    if ticker['a'][0]=='null':
-        sell_price= NULL
-    spot_price=float(ticker['c'][0])
-    if ticker['c'][0]=='null':
-        spot_price= NULL
+    
+    if ticker['b'][0]=='null' or ticker['b'][0] == None:
+        buy_price= 0
+    else:
+        buy_price=float(ticker['b'][0])
+    if ticker['a'][0]=='null' or ticker['a'][0] == None:
+        sell_price= 0
+    else:
+        sell_price=float(ticker['a'][0])
+    if ticker['c'][0]=='null' or ticker['c'][0] == None:
+        spot_price= 0
+    else:
+        spot_price=float(ticker['c'][0])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Kraken"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
 
     return
@@ -134,15 +141,18 @@ def cex_data_retrieval(curr1,curr2):
         name="Ripple"
     volume=float(ticker['volume'])
     time_stamp=datetime.fromtimestamp(int(ticker['timestamp']))
-    buy_price=float(ticker['bid'])
-    if ticker['bid'] =='null':
-        buy_price= NULL
-    sell_price=float(ticker['ask'])
-    if ticker['ask'] =='null':
-        sell_price= NULL
-    spot_price=float(ticker['last'])
-    if ticker['last'] =='null':
-        spot_price= NULL
+    if ticker['bid'] =='null' or ticker['bid']==None:
+        buy_price= 0
+    else:
+        buy_price=float(ticker['bid'])
+    if ticker['ask'] =='null' or ticker['ask']==None:
+        sell_price= 0
+    else:
+        sell_price=float(ticker['ask'])
+    if ticker['last'] =='null' or ticker['last']==None:
+        spot_price= 0
+    else:
+        spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Cex.io"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     return 
 
@@ -173,15 +183,18 @@ def bitstamp_data_retrieval(curr1,curr2):
         name="Ripple"
     volume=float(ticker['volume'])
     time_stamp = datetime.fromtimestamp(int(ticker['timestamp']))
-    buy_price=float(ticker['bid'])
-    if ticker['bid'] =='null':
-        buy_price= NULL
-    sell_price=float(ticker['ask'])
-    if ticker['ask'] =='null':
-        sell_price= NULL
-    spot_price=float(ticker['last'])
-    if ticker['last'] =='null':
-        spot_price= NULL
+    if ticker['bid'] =='null' or ticker['bid']==None:
+        buy_price= 0
+    else:
+        buy_price=float(ticker['bid'])
+    if ticker['ask'] =='null' or ticker['ask']==None:
+        sell_price= 0
+    else:
+        sell_price=float(ticker['ask'])
+    if ticker['last'] =='null' or ticker['last']==None:
+        spot_price= 0
+    else:
+        spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="BitStamp"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     return 
 
@@ -191,16 +204,18 @@ def bitsquare_data_retrieval(curr1,curr2):
     name="Bitcoin"
     volume=float(ticker['volume_right'])
     time_stamp = datetime.now()
-    if ticker['buy'] == None:
+    if ticker['buy'] == None or ticker['buy']=="null":
         buy_price= 0
     else:
         buy_price=float(ticker['buy'])
-    sell_price=float(ticker['sell'])
-    if ticker['sell'] =='null':
-        sell_price= NULL
-    spot_price=float(ticker['last'])
-    if ticker['last'] =='null':
-        spot_price= NULL
+    if ticker['sell'] =='null' or ticker['sell']==None:
+        sell_price= 0
+    else:
+        sell_price=float(ticker['sell'])
+    if ticker['last'] =='null' or ticker['last']==None:
+        spot_price= 0
+    else:
+        spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Bitsquare"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     return 
 
@@ -210,9 +225,10 @@ def localbitcoin_data_retrieval():
     name= "Bitcoin"
     volume=float(ticker['amount'])
     time_stamp = datetime.fromtimestamp(int(ticker['date']))
-    spot_price=float(ticker['price'])
-    if ticker['price'] =='null':
-        spot_price= NULL
+    if ticker['price'] =='null' or ticker['price']==None:
+        spot_price= 0
+    else:
+        spot_price=float(ticker['price'])
     buy_price=0
     sell_price=0
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Local Bitcoin"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
@@ -227,15 +243,18 @@ def gemini_data_retrieval(curr1,curr2):
         name="Ethereum"
     volume=float(ticker['volume'][f'{curr1}'.upper()])
     time_stamp = datetime.fromtimestamp(int(ticker['volume']['timestamp'])/1000)
-    buy_price=float(ticker['bid'])
-    if ticker['bid'] =='null':
-        buy_price= NULL
-    sell_price=float(ticker['ask'])
-    if ticker['ask']=='null':
-        sell_price= NULL
-    spot_price=float(ticker['last'])
-    if ticker['last'] =='null':
-        spot_price= NULL
+    if ticker['bid'] =='null' or ticker['bid']==None:
+        buy_price= 0
+    else:
+        buy_price=float(ticker['bid'])
+    if ticker['ask']=='null' or ticker['ask']==None:
+        sell_price= 0
+    else:
+        sell_price=float(ticker['ask'])
+    if ticker['last'] =='null' or ticker['last']==None:
+        spot_price= 0
+    else:
+        spot_price=float(ticker['last'])
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Gemini"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
     return 
 
@@ -250,19 +269,22 @@ def coinbase_data_retrieval(curr1,curr2):
         name="Bitcoin Cash"
     elif curr1== "LTC":
         name="LiteCoin"
-    spot_price=float(ticker['amount'])
-    if ticker['amount'] =='null':
-        spot_price= NULL
+    if ticker['amount'] =='null' or ticker['amount']==None:
+        spot_price= 0
+    else:
+        spot_price=float(ticker['amount'])
     b = requests.get(f'https://api.coinbase.com/v2/prices/{curr1}-{curr2}/buy')
     ticker2=b.json()['data']
-    buy_price=float(ticker2['amount'])
-    if ticker2['amount'] =='null':
-        buy_price= NULL
-    s = requests.get(f'https://api.coinbase.com/v2/prices/{curr1}-{curr2}/buy')
+    if ticker2['amount'] =='null' or ticker2['amount']==None:
+        buy_price= 0
+    else:
+        buy_price=float(ticker2['amount'])
+    s = requests.get(f'https://api.coinbase.com/v2/prices/{curr1}-{curr2}/sell')
     ticker3=s.json()['data']
-    sell_price=float(ticker3['amount'])
-    if ticker['amount'] =='null':
-        sell_price= NULL
+    if ticker3['amount'] =='null' or ticker3['amount']==None:
+        sell_price= 0
+    else:
+        sell_price=float(ticker3['amount'])
     time_stamp=datetime.now()
     volume=0
     Transaction.objects.create(cryptocurrencies= CryptoCurrency.objects.get(name=name),exchanges= Exchange.objects.get(name="Coinbase"), volume=volume, buy_price=buy_price,sell_price=sell_price,spot_price=spot_price,time_stamp=time_stamp)
@@ -278,7 +300,6 @@ def show_crypto(request, pk):
     ltc_context={}
     dash_context={}
     xrp_context={}
-    doge_context={}
 
     if crypto.abbreviation=="BTC":
         btc_context={
@@ -333,7 +354,6 @@ def show_crypto(request, pk):
         "ltc_context":ltc_context,
         "dash_context":dash_context,
         "xrp_context":xrp_context,
-        "doge_context":doge_context
     }
 
     return render(request, 'api/show_crypto.html',context)
