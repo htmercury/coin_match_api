@@ -76,7 +76,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 * **Ka Wong** - *Unit testing, serializers, database design - django models.* - [HTMercury](https://github.com/htmercury/)
 * **Zach Verghese** - *Logical data operations and validation - django views.* - [ZachVerghese](https://github.com/zachverghese)
-* **Tom Kane** - *Integration between front-end and database, documentation.* - [Tsk339](https://github.com/tsk339)
+* **Tom Kane** - *Front and back end integration, documentation - django templates.* - [Tsk339](https://github.com/tsk339)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
