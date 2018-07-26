@@ -1,4 +1,5 @@
 # Coin Match API
+[![Build Status](https://semaphoreci.com/api/v1/htmercury/coin_match_api/branches/master/badge.svg)](https://semaphoreci.com/htmercury/coin_match_api)
 
 Thank you for using the coin match api. This api can be used to compare prices for various cryptocurrencies across several platforms for the purposes of price analysis, research, and logging. Coin match can also be used to compare one exchange to another, and display whatever currencies are available on those exchanges.
 
