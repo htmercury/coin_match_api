@@ -1,0 +1,1 @@
+web: gunicorn coin_match.wsgi --pythonpath=coin_match --log-file -
