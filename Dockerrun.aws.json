@@ -1,34 +1,19 @@
 {
-    "containerDefinitions": [
-        {
-            "command": [
-                "bash",
-                "-c",
-                "python coin_match/manage.py makemigrations && python coin_match/manage.py migrate && python coin_match/manage.py runserver 0.0.0.0:8000"
-            ],
-            "essential": true,
-            "mountPoints": [
-                {
-                    "containerPath": "/src",
-                    "sourceVolume": "_"
-                }
-            ],
-            "name": "web",
-            "portMappings": [
-                {
-                    "containerPort": 8000,
-                    "hostPort": 8000
-                }
-            ]
-        }
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+        "Name": "coinmatchwebapi_web:latest",
+        "Update": "true" 
+    },
+    "Volumes": [{
+        "containerDirectory": "/src",
+        "HostDirectory": "_"
+    }],
+    "Ports": [
+      {
+        "ContainerPort": 8000,
+        "hostPort": 8000
+      }
     ],
-    "family": "",
-    "volumes": [
-        {
-            "host": {
-                "sourcePath": "."
-            },
-            "name": "_"
-        }
-    ]
-}
+    "Logging": "/var/eb_log",
+    "Command": ["bash", "-c", "python", "coin_match/manage.py", "makemigrations", "&&", "python", "coin_match/manage.py", "migrate", "&&", "python", "coin_match/manage.py", "runserver", "0.0.0.0:8000"]
+} 
