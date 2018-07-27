@@ -1,9 +1,10 @@
 {
     "AWSEBDockerrunVersion": "1",
+    "Volumes": [],
     "Ports": [
       {
         "ContainerPort": "8000"
       }
     ],
-    "Logging": "/var/log/nginx"
+    "Logging": "/var/eb_log"
   }
