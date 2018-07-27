@@ -1,0 +1,34 @@
+{
+    "containerDefinitions": [
+        {
+            "command": [
+                "bash",
+                "-c",
+                "python coin_match/manage.py makemigrations && python coin_match/manage.py migrate && python coin_match/manage.py runserver 0.0.0.0:8000"
+            ],
+            "essential": true,
+            "mountPoints": [
+                {
+                    "containerPath": "/src",
+                    "sourceVolume": "_"
+                }
+            ],
+            "name": "web",
+            "portMappings": [
+                {
+                    "containerPort": 8000,
+                    "hostPort": 8000
+                }
+            ]
+        }
+    ],
+    "family": "",
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "."
+            },
+            "name": "_"
+        }
+    ]
+}
