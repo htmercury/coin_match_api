@@ -1,4 +1,7 @@
 # Coin Match API
+[![GitHub license](https://img.shields.io/github/license/htmercury/coin_match_api.svg)](https://github.com/htmercury/coin_match_api/blob/master/LICENSE)
+[![Read the Docs](https://img.shields.io/readthedocs/pip.svg)](https://htmercury.github.io/coin_match_api)
+
 [![Build Status](https://semaphoreci.com/api/v1/htmercury/coin_match_api/branches/master/badge.svg)](https://semaphoreci.com/htmercury/coin_match_api)
 
 Thank you for using the coin match api. This api can be used to compare prices for various cryptocurrencies across several platforms for the purposes of price analysis, research, and logging. Coin match can also be used to compare one exchange to another, and display whatever currencies are available on those exchanges.
@@ -38,7 +41,7 @@ virtualenv djangoPy3Env
 ```
 Activate the virtual environment
 ```
-Windows: call djangoPy3Env/Scripts/activate
+Windows: call djangoPy3Env/Scripts/activat
 Mac/Linux: source djangoPy3Env/bin/activate
 ```
 Install the required packages
@@ -115,7 +118,7 @@ This test checks if the API can update an existing exchange that was made by a P
 
 ## Deployment
 
-This app will be deployed from github using EC2 and the Amazon Web Server. We will not be using heroku for our deployment.
+This app will be deployed using AWS beanstalk and docker. TBD
 
 ## Built With
 
