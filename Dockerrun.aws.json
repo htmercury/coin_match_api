@@ -1,12 +1,11 @@
 {
     "AWSEBDockerrunVersion": "1",
     "Image": {
-        "Name": "coinmatchwebapi_web:latest",
+        "Name": "449515185715.dkr.ecr.us-east-2.amazonaws.com/coin-match:latest",
         "Update": "true" 
     },
     "Volumes": [{
-        "containerDirectory": "/src",
-        "HostDirectory": "_"
+        "containerDirectory": "/src"
     }],
     "Ports": [
       {
