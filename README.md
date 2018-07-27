@@ -118,7 +118,7 @@ This test checks if the API can update an existing exchange that was made by a P
 
 ## Deployment
 
-This app will be deployed from github using EC2 and the Amazon Web Server. We will not be using heroku for our deployment.
+This app will be deployed using AWS beanstalk and docker. TBD
 
 ## Built With
 
