@@ -13,7 +13,7 @@
             "mountPoints": [
                 {
                     "containerPath": "/src",
-                    "sourceVolume": "_"
+                    "sourceVolume": "django-app"
                 }
             ],
             "name": "web",
