@@ -75,7 +75,7 @@ def index(request):
     print(gemini_data_retrieval("btc","usd"))
     print(coinbase_data_retrieval("BTC","USD"))
 
-    return HttpResponse("hi")
+    return HttpResponse("This is a test page. Please visit endpoints starting with /exchange or /cryptocurrency to try the API!")
 
 def coinsquare_data_retrieval():
     r= requests.get('https://coinsquare.com/api/v1/data/quotes')
