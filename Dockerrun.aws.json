@@ -29,7 +29,7 @@
     "volumes": [
         {
             "host": {
-                "sourcePath": "."
+                "sourcePath": "_"
             },
             "name": "app"
         }
