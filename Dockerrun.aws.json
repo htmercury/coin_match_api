@@ -19,7 +19,7 @@
             "mountPoints": [
                 {
                     "containerPath": "/src",
-                    "sourceVolume": "_"
+                    "sourceVolume": "awseb-logs-web"
                 }
             ],
             "name": "web",
