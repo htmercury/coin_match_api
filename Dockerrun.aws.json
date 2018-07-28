@@ -8,8 +8,14 @@
                 "python coin_match/manage.py makemigrations && python coin_match/manage.py migrate && python coin_match/manage.py runserver 0.0.0.0:8000"
             ],
             "essential": true,
-	    "memory": 512,
+	        "memory": 512,
             "image": "449515185715.dkr.ecr.us-east-2.amazonaws.com/coin-match:latest",
+            "environment": [
+                {
+                    "name": "Container",
+                    "value": "web"
+                }
+            ],
             "mountPoints": [
                 {
                     "containerPath": "/src",
@@ -29,7 +35,7 @@
     "volumes": [
         {
             "host": {
-                "sourcePath": "_"
+                "sourcePath": "."
             },
             "name": "app"
         }
